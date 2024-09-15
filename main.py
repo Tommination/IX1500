@@ -23,7 +23,7 @@ def produce_basic_path(start_point,end_point): # Creates a string for a path bet
     return basic_path_string
 
 def invert_end(end_point): #Used when finding paths that cross x-axis
-    return(end_point[0],-end_point[1])
+    return(end_point[0],-end_point[1]) #Returns end-point with y-value negated
 
 
 def non_zero_path_count(start_point,end_point):
@@ -34,10 +34,11 @@ def non_zero_path_count(start_point,end_point):
     no_paths_thru_zero = comb(total_moves,no_Ls_thru_zero) # Total number of paths that cross zero
     return (total_paths - no_paths_thru_zero),total_paths
 
-ways_no_restrictions = [''.join(p) for p in permutations(produce_basic_path(start,end))] #finds all possible permutations
-ways_no_restrictions = list(dict.fromkeys(ways_no_restrictions)) #removes duplicates
-print(ways_no_restrictions)
-print(len(ways_no_restrictions))
+ways_no_restrictions = [''.join(p) for p in permutations(produce_basic_path(start,end))] # finds all possible permutations (is a lot)
+ways_no_restrictions = list(dict.fromkeys(ways_no_restrictions)) # removes duplicates
+print("The number of possible paths between (0,3) and (7,2) is: " + str(len(ways_no_restrictions)))
+print("All possible paths between (0,3) and (7,2) are: " + str(ways_no_restrictions) + '\n')
+
 
 inverted_end = invert_end(end)
 ways_thru_zero_noninverted = [''.join(p) for p in permutations(produce_basic_path(start,inverted_end))]
@@ -72,12 +73,14 @@ for i in range(0, len(ways_thru_zero_noninverted)): # All paths that go to the n
             if ways_thru_zero_noninverted[i][j] == 'U':
                 n = n + 1
 
-print(ways_thru_zero_inverted)
+print("The number of possible paths between (0,3) and (7,2) touching or crossing the x-axis is: " + str(len(ways_thru_zero_inverted)))
+print("Those paths are: " + str(ways_thru_zero_inverted) + '\n')
 
 paths_no_zero = list(set(ways_no_restrictions)-set(ways_thru_zero_inverted))
-print(paths_no_zero)
-print(len(paths_no_zero))
-print(non_zero_path_count((7,6),(20,5))[0])
+print("The number of possible paths between (0,3) and (7,2) NOT touching or crossing the x-axis is: " + str(len(paths_no_zero)))
+print("Those paths are: " + str(paths_no_zero) + '\n')
+
+print("The number of possible paths between (7,6) and (20,5) NOT touching or crossing the x-axis is: " + str(non_zero_path_count((7,6),(20,5))[0]) + '\n')
 
 def ballot_possibilities_A_first_draw(A,B):
     return comb(((A+B)-1),(A-1))
@@ -90,5 +93,7 @@ def A_strictly_ahead_likelihood(A,B):
     all_draws = ballot_possibilities_A_first_draw(A,B)
     favorable_draws = A_strictly_ahead_possibilities(A,B)
     return (favorable_draws/all_draws)*(A/(A+B))
-print(A_strictly_ahead_possibilities(9,2))
-print(A_strictly_ahead_likelihood(9,2))
+
+print("TASK 2:")
+print("The number of draws in which A is striclty ahead is:" + str(A_strictly_ahead_possibilities(9,2)))
+print("The likelihood of A being striclty ahead is:" + str(A_strictly_ahead_likelihood(9,2)))
